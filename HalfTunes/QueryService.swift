@@ -17,13 +17,11 @@ class QueryService {
   func getSearchResults(searchTerm: String, completion: @escaping QueryResult)
 	{
 		// start by cancelling the data task from a previous search
-    dataTask?.cancel()
+    //dataTask?.cancel()
 		
-		// use URLComponents to construct the url from its parts
 		if var urlComponents = URLComponents(string: "https://itunes.apple.com/search")
 		{
 			urlComponents.query = "media=music&entity=song&term=\(searchTerm)"
-			
 			guard let url = urlComponents.url else { return }
 			
 			dataTask = defaultSession.dataTask(with: url)
@@ -41,8 +39,8 @@ class QueryService {
 					
 					DispatchQueue.main.async
 					{ // this is a communication pattern
-						// the block code is generic (to be defined in the method call)
-						// but the arguments are specific (the downloaded data: the tracks)
+						// the transfer is made via a block with pre-defined arguments (the downloaded data)
+						// the block is generic (to be defined in the method call)
 						completion(self.tracks, self.errorMessage)
 					}
 				}

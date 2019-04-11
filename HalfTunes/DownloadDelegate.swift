@@ -15,7 +15,9 @@ extension SearchViewController: URLSessionDownloadDelegate
 	func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask,
 									didFinishDownloadingTo location: URL)
 	{
+		// source url is the temp url
 		guard let sourceURL = downloadTask.originalRequest?.url else { return }
+		
 		// get the download object
 		let download = downloadService.activeDownloads[sourceURL]
 		downloadService.activeDownloads[sourceURL] = nil

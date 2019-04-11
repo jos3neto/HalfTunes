@@ -24,7 +24,8 @@ class TrackCell: UITableViewCell
   @IBOutlet weak var cancelButton: UIButton!
   @IBOutlet weak var downloadButton: UIButton!
   
-  @IBAction func pauseOrResumeTapped(_ sender: AnyObject) {
+  @IBAction func pauseOrResumeTapped(_ sender: AnyObject)
+	{
     if(pauseButton.titleLabel?.text == "Pause") {
       delegate?.pauseTapped(self)
     } else {
@@ -32,26 +33,37 @@ class TrackCell: UITableViewCell
     }
   }
   
-  @IBAction func cancelTapped(_ sender: AnyObject) {
+  @IBAction func cancelTapped(_ sender: AnyObject)
+	{
     delegate?.cancelTapped(self)
   }
   
-  @IBAction func downloadTapped(_ sender: AnyObject) {
+  @IBAction func downloadTapped(_ sender: AnyObject)
+	{
     delegate?.downloadTapped(self)
   }
 
-  func configure(track: Track, downloaded: Bool) {
+	func configure(track: Track, downloaded: Bool, download: Download?)
+	{
     titleLabel.text = track.name
     artistLabel.text = track.artist
 
     // Show/hide download controls Pause/Resume, Cancel buttons, progress info
-    // TODO
+    var showDownloadControls = false
     // Non-nil Download object means a download is in progress
-    // TODO
+		if let download = download
+		{
+			showDownloadControls = true
+			let title = download.isDownloading ? "Pause" : "Resume"
+			pauseButton.setTitle(title, for: .normal)
+		}
+		
+		pauseButton.isHidden = !showDownloadControls
+		cancelButton.isHidden = !showDownloadControls
     
     // If the track is already downloaded, enable cell selection and hide the Download button
     selectionStyle = downloaded ? UITableViewCell.SelectionStyle.gray : UITableViewCell.SelectionStyle.none
-    downloadButton.isHidden = downloaded
+    downloadButton.isHidden = downloaded || showDownloadControls
   }
 
 }

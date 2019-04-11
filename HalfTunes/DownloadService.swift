@@ -26,16 +26,34 @@ class DownloadService
 
   func pauseDownload(_ track: Track)
 	{
-    // TODO
-  }
+    guard let download = activeDownloads[track.previewURL] else { return }
+		guard download.isDownloading else {return}
+		
+		download.task?.cancel(byProducingResumeData:
+		{ data in
+			download.resumeData = data
+		})
+		download.isDownloading = false
+	}
 
   func cancelDownload(_ track: Track)
 	{
-    // TODO
+		guard let download = activeDownloads[track.previewURL] else {return}
+		download.task?.cancel()
+		activeDownloads[track.previewURL] = nil
   }
 
   func resumeDownload(_ track: Track)
 	{
-    // TODO
+    guard let download = activeDownloads[track.previewURL] else { return }
+		if let resumeData = download.resumeData
+		{
+			download.task = downloadSession.downloadTask(withResumeData: resumeData)
+		} else
+		{
+			download.task = downloadSession.downloadTask(with: download.track.previewURL)
+		}
+		download.task!.resume()
+		download.isDownloading = true
   }
 }

@@ -54,9 +54,9 @@
 		407FC0F21EA43D2500CE83C3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				82653457218C98C100EF9E7C /* DownloadDelegate.swift */,
 				D9EF8FE81B53FD6900EFC4B6 /* SearchViewController.swift */,
 				4051C2DD1E078EE00031FE46 /* SearchBarDelegate.swift */,
-				82653457218C98C100EF9E7C /* DownloadDelegate.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
